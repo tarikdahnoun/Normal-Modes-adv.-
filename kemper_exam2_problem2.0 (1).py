@@ -1,0 +1,186 @@
+#Test 2 Question 1.1
+import numpy as np
+import pylab as py
+
+k=1 #N/m
+m=2 #kg
+l=1
+
+A=np.matrix([[2*k,-k,0,0,0],[-k,2*k,-k,0,0],[0,-k,2*k,-k,0],[0,0,-k,2*k,-k],[0,0,0,-k,2*k]])
+
+eval,evec=np.linalg.eig(A)
+print "The Eigenvalues are",eval
+print
+print "The Eigen Vector is"
+print evec
+print
+
+omega1=np.sqrt(eval[0]/m)
+omega2=np.sqrt(eval[1]/m)
+omega3=np.sqrt(eval[2]/m)
+omega4=np.sqrt(eval[3]/m)
+omega5=np.sqrt(eval[4]/m)
+O=np.matrix([omega1,omega2,omega3,omega4,omega5])
+
+tmin=0
+tmax=10
+nts=10000
+t=np.linspace(tmin,tmax,nts)
+
+#Edit: I realized that the eigenvectors are the amplitudes. I multiply by
+#cosine when I obtain the normal modes.
+na1=evec[0,0]#*np.cos(omega1*t[tmax])
+na2=evec[1,0]#*np.cos(omega1*t[tmax])
+na3=evec[2,0]#*np.cos(omega1*t[tmax])
+na4=evec[3,0]#*np.cos(omega1*t[tmax])
+na5=evec[4,0]#*np.cos(omega1*t[tmax])
+
+nb1=evec[0,1]#*np.cos(omega2*t[tmax])
+nb2=evec[1,1]#*np.cos(omega2*t[tmax])
+nb3=evec[2,1]#*np.cos(omega2*t[tmax])
+nb4=evec[3,1]#*np.cos(omega2*t[tmax])
+nb5=evec[4,1]#*np.cos(omega2*t[tmax])
+
+nc1=evec[0,2]#*np.cos(omega3*t[tmax])
+nc2=evec[1,2]#*np.cos(omega3*t[tmax])
+nc3=evec[2,2]#*np.cos(omega3*t[tmax])
+nc4=evec[3,2]#*np.cos(omega3*t[tmax])
+nc5=evec[4,2]#*np.cos(omega3*t[tmax])
+
+nd1=evec[0,3]#*np.cos(omega4*t[tmax])
+nd2=evec[1,3]#*np.cos(omega4*t[tmax])
+nd3=evec[2,3]#*np.cos(omega4*t[tmax])
+nd4=evec[3,3]#*np.cos(omega4*t[tmax])
+nd5=evec[4,3]#*np.cos(omega4*t[tmax])
+
+ne1=evec[0,4]#*np.cos(omega5*t[tmax])
+ne2=evec[1,4]#*np.cos(omega5*t[tmax])
+ne3=evec[2,4]#*np.cos(omega5*t[tmax])
+ne4=evec[3,4]#*np.cos(omega5*t[tmax])
+ne5=evec[4,4]#*np.cos(omega5*t[tmax])
+
+B=np.matrix([[na1,na2,na3,na4,na5],[nb1,nb2,nb3,nb4,nb5],[nc1,nc2,nc3,nc4,nc5],[nd1,nd2,nd3,nd4,nd5],[ne1,ne2,ne3,ne4,ne5]])
+
+for i in range(0,5):
+    print "The first component of the normal mode number",i+1,"is",B[i,0]
+    print "The second component of the normal mode number",i+1,"is",B[i,1]
+    print "The third component of the normal mode number",i+1,"is",B[i,2]
+    print "The fourth component of the normal mode number",i+1,"is",B[i,3]
+    print "The fifth component of the normal mode number",i+1,"is",B[i,4]
+    print
+
+#The interpretation of the first and second mode might best be described as where the masses are either moving in directly opposite directions or the exact same direction.
+#These are special because we can understand them directly, all other possibilities will be some combination of the two normal modes.
+
+
+py.figure(1)
+Na1=evec[0,0]*np.cos(omega1*t)+l
+Na2=evec[1,0]*np.cos(omega1*t)+2*l
+Na3=evec[2,0]*np.cos(omega1*t)+3*l
+Na4=evec[3,0]*np.cos(omega1*t)+4*l
+Na5=evec[4,0]*np.cos(omega1*t)+5*l
+py.plot(t,Na1,'.-',label=r"component 1")
+py.plot(t,Na2,'.-',label=r"component 2")
+py.plot(t,Na3,'.-',label=r"component 3")
+py.plot(t,Na4,'.-',label=r"component 4")
+py.plot(t,Na5,'.-',label=r"component 5")
+py.title("First Normal Mode")
+py.xlabel("Time [s]",fontsize=16)
+py.ylabel("Position [m]",fontsize=16)
+py.legend(loc='top',fontsize=11)
+py.axhline(y=l,linestyle='-')
+py.axhline(y=2*l,linestyle='-')
+py.axhline(y=3*l,linestyle='-')
+py.axhline(y=4*l,linestyle='-')
+py.axhline(y=5*l,linestyle='-')
+
+py.show()
+
+py.figure(2)
+Nb1=evec[0,1]*np.cos(omega2*t)+l
+Nb2=evec[1,1]*np.cos(omega2*t)+2*l
+Nb3=evec[2,1]*np.cos(omega2*t)+3*l
+Nb4=evec[3,1]*np.cos(omega2*t)+4*l
+Nb5=evec[4,1]*np.cos(omega2*t)+5*l
+py.plot(t,Nb1,'.-',label=r"component 1")
+py.plot(t,Nb2,'.-',label=r"component 2")
+py.plot(t,Nb3,'.-',label=r"component 3")
+py.plot(t,Nb4,'.-',label=r"component 4")
+py.plot(t,Nb5,'.-',label=r"component 5")
+py.title("Second Normal Mode")
+py.xlabel("Time [s]",fontsize=16)
+py.ylabel("Position [m]",fontsize=16)
+py.legend(loc='top',fontsize=11)
+py.axhline(y=l,linestyle='-')
+py.axhline(y=2*l,linestyle='-')
+py.axhline(y=3*l,linestyle='-')
+py.axhline(y=4*l,linestyle='-')
+py.axhline(y=5*l,linestyle='-')
+py.show()
+
+py.figure(3)
+Nc1=evec[0,2]*np.cos(omega3*t)+l
+Nc2=evec[1,2]*np.cos(omega3*t)+2*l
+Nc3=evec[2,2]*np.cos(omega3*t)+3*l
+Nc4=evec[3,2]*np.cos(omega3*t)+4*l
+Nc5=evec[4,2]*np.cos(omega3*t)+5*l
+py.plot(t,Nc1,'.-',label=r"component 1")
+py.plot(t,Nc2,'.-',label=r"component 2")
+py.plot(t,Nc3,'.-',label=r"component 3")
+py.plot(t,Nc4,'.-',label=r"component 4")
+py.plot(t,Nc5,'.-',label=r"component 5")
+py.title("Third Normal Mode")
+py.xlabel("Time [s]",fontsize=16)
+py.ylabel("Position [m]",fontsize=16)
+py.legend(loc='top',fontsize=11)
+py.axhline(y=l,linestyle='-')
+py.axhline(y=2*l,linestyle='-')
+py.axhline(y=3*l,linestyle='-')
+py.axhline(y=4*l,linestyle='-')
+py.axhline(y=5*l,linestyle='-')
+py.show()
+
+py.figure(4)
+Nd1=evec[0,3]*np.cos(omega4*t)+l
+Nd2=evec[1,3]*np.cos(omega4*t)+2*l
+Nd3=evec[2,3]*np.cos(omega4*t)+3*l
+Nd4=evec[3,3]*np.cos(omega4*t)+4*l
+Nd5=evec[4,3]*np.cos(omega4*t)+5*l
+py.plot(t,Nd1,'.-',label=r"component 1")
+py.plot(t,Nd2,'.-',label=r"component 2")
+py.plot(t,Nd3,'.-',label=r"component 3")
+py.plot(t,Nd4,'.-',label=r"component 4")
+py.plot(t,Nd5,'.-',label=r"component 5")
+py.title("Fourth Normal Mode")
+py.xlabel("Time [s]",fontsize=16)
+py.ylabel("Position [m]",fontsize=16)
+py.legend(loc='top',fontsize=11)
+py.axhline(y=l,linestyle='-')
+py.axhline(y=2*l,linestyle='-')
+py.axhline(y=3*l,linestyle='-')
+py.axhline(y=4*l,linestyle='-')
+py.axhline(y=5*l,linestyle='-')
+py.show()
+
+
+py.figure(5)
+Ne1=evec[0,4]*np.cos(omega5*t)+l
+Ne2=evec[1,4]*np.cos(omega5*t)+2*l
+Ne3=evec[2,4]*np.cos(omega5*t)+3*l
+Ne4=evec[3,4]*np.cos(omega5*t)+4*l
+Ne5=evec[4,4]*np.cos(omega5*t)+5*l
+py.plot(t,Ne1,'.-',label=r"component 1")
+py.plot(t,Ne2,'.-',label=r"component 2")
+py.plot(t,Ne3,'.-',label=r"component 3")
+py.plot(t,Ne4,'.-',label=r"component 4")
+py.plot(t,Ne5,'.-',label=r"component 5")
+py.title("Fifth Normal Mode")
+py.xlabel("Time [s]",fontsize=16)
+py.ylabel("Position [m]",fontsize=16)
+py.legend(loc='top',fontsize=11)
+py.axhline(y=l,linestyle='-')
+py.axhline(y=2*l,linestyle='-')
+py.axhline(y=3*l,linestyle='-')
+py.axhline(y=4*l,linestyle='-')
+py.axhline(y=5*l,linestyle='-')
+py.show()
